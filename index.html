@@ -87,6 +87,7 @@ body::before {
   border-radius: 20px;
   background: #0d0d14;
   padding: 52px 48px 44px;
+  text-align: center;
 }
 
 /* top highlight */
@@ -103,6 +104,7 @@ body::before {
 .badge {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 7px;
   font-size: 10px;
   letter-spacing: 3px;
@@ -110,6 +112,7 @@ body::before {
   color: var(--c2);
   margin-bottom: 30px;
   opacity: .85;
+  width: 100%;
 }
 
 .badge-dot {
@@ -127,10 +130,10 @@ body::before {
 
 /* ======= NAME ======= */
 .name {
-  font-size: clamp(38px, 9vw, 68px);
+  font-size: clamp(32px, 7.5vw, 58px);
   font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -2px;
+  line-height: 1.1;
+  letter-spacing: -1px;
   background: linear-gradient(130deg, #c084fc 0%, #818cf8 25%, #38bdf8 55%, #06b6d4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -177,12 +180,12 @@ body::before {
 
 /* ======= SPEC ======= */
 .spec {
-  font-size: clamp(14px, 2.6vw, 17px);
+  font-size: clamp(15px, 2.6vw, 18px);
   color: rgba(226,232,240,.68);
   line-height: 1.75;
   font-weight: 300;
-  max-width: 460px;
-  margin-bottom: 38px;
+  max-width: 420px;
+  margin: 0 auto 38px;
 }
 
 .spec em {
@@ -195,6 +198,7 @@ body::before {
 .contacts {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 12px;
   margin-bottom: 36px;
 }
@@ -249,7 +253,7 @@ body::before {
 .chip span { position: relative; z-index: 1; }
 
 /* ======= CTA BUTTON ======= */
-.cta-wrap { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+.cta-wrap { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; justify-content: center; }
 
 .cta {
   display: inline-flex;
@@ -327,6 +331,7 @@ body::before {
   letter-spacing: 2.5px;
   color: rgba(100,116,139,.45);
   text-transform: uppercase;
+  text-align: center;
 }
 
 /* ======= ANIMATIONS ======= */
@@ -337,9 +342,9 @@ body::before {
 
 /* ======= MOBILE ======= */
 @media (max-width: 520px) {
-  .card { padding: 36px 24px 32px; }
-  .contacts { flex-direction: column; }
-  .chip { justify-content: center; }
+  .card { padding: 36px 20px 32px; }
+  .contacts { flex-direction: column; align-items: center; }
+  .chip { justify-content: center; min-width: 200px; }
   .cta { width: 100%; justify-content: center; }
   .name { letter-spacing: -1px; }
   .div-line { width: 32px; }
@@ -377,8 +382,9 @@ body::before {
 
     <!-- specialization -->
     <p class="spec">
-      Внедрение <em>цифровых продуктов</em> в любое направление<br>
-      на основе <em>нейросетей</em> и приложений под ваши задачи.
+      Внедряем <em>AI-приложение</em> под ключ<br>
+      Одно решение вместо множества сервисов<br>
+      <em>Быстро и без лишней сложности</em>
     </p>
 
     <!-- contacts -->
