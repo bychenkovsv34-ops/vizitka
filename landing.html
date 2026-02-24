@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgbLab AI — AI-приложения под ключ</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:   #0a0a0a;
+  --c1:   #7c3aed;
+  --c2:   #06b6d4;
+  --c3:   #a855f7;
+  --text: #e2e8f0;
+  --muted:#94a3b8;
+  --card: rgba(15,15,22,0.85);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* ── Canvas background ── */
+#bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 10% 30%, rgba(124,58,237,.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 70%, rgba(6,182,212,.08) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Layout ── */
+.page { position: relative; z-index: 1; }
+
+section { width: 100%; }
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ════════════════════════════
+   HERO
+════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 24px 60px;
+}
+
+.hero-inner { max-width: 760px; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border: 1px solid rgba(6,182,212,.35);
+  border-radius: 100px;
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--c2);
+  margin-bottom: 36px;
+  background: rgba(6,182,212,.05);
+  animation: fadeUp .8s ease both;
+}
+
+.badge-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--c2);
+  box-shadow: 0 0 8px var(--c2);
+  animation: blink 2s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50%      { opacity: .25; }
+}
+
+.hero-title {
+  font-size: clamp(28px, 5.5vw, 58px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -2px;
+  margin-bottom: 12px;
+  background: linear-gradient(130deg, #c084fc 0%, #818cf8 30%, #38bdf8 60%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+  animation: shimmer 6s ease-in-out infinite, fadeUp .9s ease both;
+  filter: drop-shadow(0 0 40px rgba(124,58,237,.5));
+}
+
+@keyframes shimmer {
+  0%,100% { background-position: 0% 50%;   filter: drop-shadow(0 0 25px rgba(124,58,237,.4)); }
+  50%      { background-position: 100% 50%; filter: drop-shadow(0 0 55px rgba(6,182,212,.65)); }
+}
+
+.hero-sub {
+  font-size: clamp(16px, 2.5vw, 20px);
+  color: rgba(226,232,240,.6);
+  font-weight: 300;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  animation: fadeUp 1s ease both;
+}
+
+.hero-desc {
+  font-size: clamp(13px, 2vw, 15px);
+  color: rgba(226,232,240,.42);
+  font-weight: 300;
+  line-height: 1.6;
+  margin-bottom: 48px;
+  animation: fadeUp 1.1s ease both;
+}
+
+.hero-desc em {
+  color: var(--c2);
+  font-style: normal;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── CTA Button ── */
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 40px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #7c3aed, #0ea5e9);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: transform .3s ease, box-shadow .3s ease;
+  box-shadow: 0 0 32px rgba(124,58,237,.4);
+  animation: fadeUp 1.2s ease both;
+}
+
+.cta-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 0; height: 0;
+  background: rgba(255,255,255,.18);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width .5s ease, height .5s ease;
+}
+
+.cta-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 60px rgba(124,58,237,.55), 0 12px 36px rgba(0,0,0,.3);
+}
+
+.cta-btn:hover::before { width: 400px; height: 400px; }
+.cta-btn:active { transform: translateY(0); }
+
+.pulse {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.9);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.pulse::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,.55);
+  animation: pRing 2s ease-out infinite;
+}
+
+@keyframes pRing {
+  0%   { transform: scale(.8); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.scroll-hint {
+  margin-top: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(148,163,184,.4);
+  animation: fadeUp 1.4s ease both;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color .3s ease;
+}
+
+.scroll-hint:hover {
+  color: rgba(6,182,212,.7);
+}
+
+.scroll-arrow {
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(6px); }
+}
+
+/* ════════════════════════════
+   DIVIDER
+════════════════════════════ */
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 56px;
+}
+
+.sdiv-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(124,58,237,.4), transparent);
+}
+
+.sdiv-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(124,58,237,.6);
+  white-space: nowrap;
+}
+
+/* ════════════════════════════
+   BENEFITS
+════════════════════════════ */
+.benefits {
+  padding: 100px 0;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.benefit-card {
+  background: var(--card);
+  border: 1px solid rgba(124,58,237,.18);
+  border-radius: 20px;
+  padding: 36px 28px;
+  transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
+
+.benefit-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(124,58,237,.5), rgba(6,182,212,.4), transparent);
+  opacity: 0;
+  transition: opacity .3s;
+}
+
+.benefit-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(124,58,237,.45);
+  box-shadow: 0 20px 60px rgba(124,58,237,.15), 0 0 0 1px rgba(124,58,237,.2);
+}
+
+.benefit-card:hover::before { opacity: 1; }
+
+.benefit-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(124,58,237,.2), rgba(6,182,212,.1));
+  border: 1px solid rgba(124,58,237,.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+  transition: transform .3s ease;
+}
+
+.benefit-card:hover .benefit-icon { transform: scale(1.08); }
+
+.benefit-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.benefit-text {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+/* ════════════════════════════
+   FOR WHOM
+════════════════════════════ */
+.forwhom {
+  padding: 80px 0 100px;
+}
+
+.forwhom-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.forwhom-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--c2);
+  margin-bottom: 16px;
+  opacity: .8;
+}
+
+.forwhom-title {
+  font-size: clamp(26px, 3.5vw, 38px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -.5px;
+  margin-bottom: 20px;
+}
+
+.forwhom-title em {
+  background: linear-gradient(130deg, #c084fc, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-style: normal;
+}
+
+.forwhom-desc {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+.forwhom-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.forwhom-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px;
+  background: rgba(124,58,237,.05);
+  border: 1px solid rgba(124,58,237,.15);
+  border-radius: 14px;
+  transition: border-color .3s ease, background .3s ease;
+}
+
+.forwhom-item:hover {
+  background: rgba(124,58,237,.09);
+  border-color: rgba(124,58,237,.35);
+}
+
+.fi-icon {
+  flex-shrink: 0;
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(124,58,237,.25), rgba(6,182,212,.15));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fi-text strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+
+.fi-text span {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+/* ════════════════════════════
+   CTA SECTION
+════════════════════════════ */
+.cta-section {
+  padding: 80px 0 100px;
+}
+
+.cta-box {
+  background: var(--card);
+  border: 1px solid rgba(124,58,237,.2);
+  border-radius: 28px;
+  padding: 64px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+}
+
+.cta-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 15%; right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(124,58,237,.7), rgba(6,182,212,.6), transparent);
+}
+
+.cta-box::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(124,58,237,.07) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.cta-box-title {
+  font-size: clamp(24px, 4vw, 40px);
+  font-weight: 800;
+  letter-spacing: -.5px;
+  line-height: 1.15;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.cta-box-title em {
+  background: linear-gradient(130deg, #c084fc, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-style: normal;
+}
+
+.cta-box-sub {
+  font-size: 15px;
+  color: var(--muted);
+  margin-bottom: 40px;
+  font-weight: 300;
+  position: relative;
+  z-index: 1;
+}
+
+.cta-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 17px 28px;
+  border: 1px solid rgba(124,58,237,.4);
+  border-radius: 14px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all .3s ease;
+  background: rgba(124,58,237,.05);
+}
+
+.cta-secondary:hover {
+  border-color: rgba(124,58,237,.7);
+  color: #c084fc;
+  background: rgba(124,58,237,.1);
+}
+
+/* ════════════════════════════
+   FOOTER
+════════════════════════════ */
+.footer {
+  border-top: 1px solid rgba(124,58,237,.1);
+  padding: 28px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-brand {
+  font-size: 13px;
+  font-weight: 600;
+  background: linear-gradient(130deg, #c084fc, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+}
+
+.footer-link {
+  font-size: 12px;
+  color: rgba(148,163,184,.45);
+  text-decoration: none;
+  letter-spacing: .5px;
+  transition: color .2s;
+}
+
+.footer-link:hover { color: var(--c2); }
+
+.footer-copy {
+  font-size: 11px;
+  color: rgba(148,163,184,.3);
+  letter-spacing: .5px;
+}
+
+/* ════════════════════════════
+   RESPONSIVE
+════════════════════════════ */
+@media (max-width: 768px) {
+  .benefits-grid { grid-template-columns: 1fr; }
+  .forwhom-inner { grid-template-columns: 1fr; gap: 40px; }
+  .cta-box { padding: 44px 24px; }
+  .footer { justify-content: center; text-align: center; }
+  .footer-links { justify-content: center; }
+}
+
+@media (max-width: 520px) {
+  .hero { padding: 70px 20px 50px; min-height: auto; }
+  .hero-title { font-size: clamp(32px, 10vw, 44px); letter-spacing: -1px; }
+  .hero-sub { font-size: 15px; }
+  .hero-desc { font-size: 13px; }
+  .badge { font-size: 9px; letter-spacing: 2px; padding: 5px 14px; }
+  .cta-btn { width: 100%; justify-content: center; padding: 16px 24px; font-size: 14px; }
+  .cta-secondary { width: 100%; justify-content: center; }
+  .scroll-hint { margin-top: 36px; }
+  .benefit-card { padding: 28px 20px; }
+  .forwhom-title { font-size: 24px; }
+  .cta-box { padding: 36px 20px; }
+  .cta-box-title { font-size: 22px; }
+  .footer { flex-direction: column; align-items: center; gap: 10px; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="page">
+
+  <!-- ════ HERO ════ -->
+  <section class="hero">
+    <div class="hero-inner">
+
+      <div class="badge">
+        <div class="badge-dot"></div>
+        ИИ · Под ключ · 2026
+      </div>
+
+      <h1 class="hero-title">AgbLab AI</h1>
+
+      <p class="hero-sub">
+        Готовое AI-приложение для вашего бизнеса —<br>под ключ, без лишней сложности
+      </p>
+
+      <p class="hero-desc">
+        Одно решение <em>автоматизирует рутину</em>, заменяет несколько сервисов<br>
+        и работает с первого дня
+      </p>
+
+      <a href="https://t.me/SERGEYBOZ" target="_blank" rel="noopener noreferrer" class="cta-btn">
+        <div class="pulse"></div>
+        Оставить заявку
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+
+      <a href="#benefits" class="scroll-hint">
+        <span>Узнать подробнее</span>
+        <svg class="scroll-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ════ BENEFITS ════ -->
+  <section class="benefits" id="benefits">
+    <div class="container">
+
+      <div class="section-divider">
+        <div class="sdiv-line"></div>
+        <span class="sdiv-label">Преимущества</span>
+        <div class="sdiv-line"></div>
+      </div>
+
+      <div class="benefits-grid">
+
+        <!-- Card 1 -->
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="#06b6d4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div class="benefit-title">Запуск за 2–3 дня</div>
+          <div class="benefit-text">
+            От брифа до рабочего продукта — без затяжных согласований
+            и бесконечных итераций. Вы получаете результат быстро.
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="#a855f7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <path d="M8 21h8M12 17v4"/>
+              <path d="M7 10l3 3 4-4"/>
+            </svg>
+          </div>
+          <div class="benefit-title">Простой интерфейс</div>
+          <div class="benefit-text">
+            Сотрудники работают без обучения и инструкций.
+            Мощные технологии — простое управление с первого дня.
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="#06b6d4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <div class="benefit-title">Одно вместо пяти</div>
+          <div class="benefit-text">
+            Одно AI-приложение закрывает задачи, которые раньше
+            требовали 5 разных сервисов. Меньше затрат — больше результата.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ FOR WHOM ════ -->
+  <section class="forwhom">
+    <div class="container">
+
+      <div class="section-divider">
+        <div class="sdiv-line"></div>
+        <span class="sdiv-label">Для кого</span>
+        <div class="sdiv-line"></div>
+      </div>
+
+      <div class="forwhom-inner">
+
+        <div>
+          <div class="forwhom-label">Аудитория</div>
+          <h2 class="forwhom-title">
+            Для бизнеса,<br>
+            который хочет <em>расти с AI</em><br>
+            — без хаоса
+          </h2>
+          <p class="forwhom-desc">
+            Не нужен IT-отдел, технические знания или месяцы на внедрение.
+            Мы берём всё на себя и передаём готовый инструмент.
+          </p>
+        </div>
+
+        <div class="forwhom-list">
+
+          <div class="forwhom-item">
+            <div class="fi-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                   stroke="#06b6d4" stroke-width="1.8" stroke-linecap="round">
+                <path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+              </svg>
+            </div>
+            <div class="fi-text">
+              <strong>Малый и средний бизнес</strong>
+              <span>Хотите автоматизацию, но нет своего разработчика</span>
+            </div>
+          </div>
+
+          <div class="forwhom-item">
+            <div class="fi-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                   stroke="#a855f7" stroke-width="1.8" stroke-linecap="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <div class="fi-text">
+              <strong>Команды с рутинными процессами</strong>
+              <span>Много повторяющихся задач, которые съедают время</span>
+            </div>
+          </div>
+
+          <div class="forwhom-item">
+            <div class="fi-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                   stroke="#06b6d4" stroke-width="1.8" stroke-linecap="round">
+                <line x1="12" y1="1" x2="12" y2="23"/>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>
+            </div>
+            <div class="fi-text">
+              <strong>Предприниматели с ограниченным бюджетом</strong>
+              <span>Нужен результат, а не долгие инвестиции в разработку</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ CTA SECTION ════ -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-box">
+
+        <h2 class="cta-box-title">
+          Готовы запустить<br>
+          <em>AI-приложение</em> под ваш бизнес?
+        </h2>
+        <p class="cta-box-sub">
+          Расскажите о задаче — разберём бесплатно и предложим решение
+        </p>
+
+        <div class="cta-actions">
+
+          <a href="https://t.me/SERGEYBOZ" target="_blank" rel="noopener noreferrer" class="cta-btn">
+            <div class="pulse"></div>
+            Оставить заявку
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+
+          <a href="https://t.me/agblab_ai" target="_blank" rel="noopener noreferrer" class="cta-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#06b6d4">
+              <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0
+                12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506
+                0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499
+                1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184
+                3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793
+                1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663
+                3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+            </svg>
+            Канал @agblab_ai
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ FOOTER ════ -->
+  <footer class="footer">
+    <div class="footer-brand">AgbLab AI</div>
+    <div class="footer-links">
+      <a href="https://t.me/agblab_ai" target="_blank" rel="noopener noreferrer" class="footer-link">Telegram</a>
+      <a href="https://agblabai.ru" target="_blank" rel="noopener noreferrer" class="footer-link">agblabai.ru</a>
+    </div>
+    <div class="footer-copy">© 2026 Сергей Быченков</div>
+  </footer>
+
+</div>
+
+<script>
+/* ── Neural-network canvas ── */
+(function () {
+  const canvas = document.getElementById('bg');
+  const ctx    = canvas.getContext('2d');
+  let W, H, nodes, raf;
+
+  const COUNT  = 60;
+  const DIST   = 160;
+  const SPEED  = 0.3;
+  const R      = 1.6;
+  const C1 = { r:124, g:58,  b:237 };
+  const C2 = { r:6,   g:182, b:212 };
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function mix(t) {
+    return `rgba(${Math.round(lerp(C1.r,C2.r,t))},${Math.round(lerp(C1.g,C2.g,t))},${Math.round(lerp(C1.b,C2.b,t))},`;
+  }
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function Node() {
+    this.x  = Math.random() * W;
+    this.y  = Math.random() * H;
+    this.vx = (Math.random() - .5) * SPEED;
+    this.vy = (Math.random() - .5) * SPEED;
+    this.t  = Math.random();
+  }
+
+  function init() { resize(); nodes = Array.from({ length: COUNT }, () => new Node()); }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const d  = Math.sqrt(dx*dx + dy*dy);
+        if (d < DIST) {
+          const a = (1 - d / DIST) * .2;
+          ctx.beginPath();
+          ctx.strokeStyle = mix((nodes[i].t + nodes[j].t) / 2) + a + ')';
+          ctx.lineWidth   = .7;
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    for (const n of nodes) {
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, R, 0, Math.PI*2);
+      ctx.fillStyle = mix(n.t) + '.5)';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, R * 3.5, 0, Math.PI*2);
+      ctx.fillStyle = mix(n.t) + '.06)';
+      ctx.fill();
+
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < -20 || n.x > W+20) n.vx *= -1;
+      if (n.y < -20 || n.y > H+20) n.vy *= -1;
+    }
+    raf = requestAnimationFrame(draw);
+  }
+
+  init(); draw();
+  window.addEventListener('resize', () => { cancelAnimationFrame(raf); resize(); draw(); });
+})();
+</script>
+
+</body>
+</html>
